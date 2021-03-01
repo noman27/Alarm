@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Medicine Reminder"
+        android:paddingBottom="10dp"
+        android:background="@color/purple_200"
+        android:textAlignment="center"
+        android:textAllCaps="true" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Initial Time Set:"
+        android:textColor="@color/black"
+
+        android:textSize="15dp">
+    </TextView>
+
+
+    <EditText
+        android:id="@+id/med_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Medicine Name"
+        android:inputType="text"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tits2"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="Dose times:"
+            android:textSize="15dp"
+            android:textColor="@color/black">
+        </TextView>
+        <CheckBox
+            android:id="@+id/morning_dose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Morning"
+            android:textColor="@color/black"
+            android:checked="false"
+            android:onClick="onCheckboxClicked">
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/afternoon_dose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Afternoon"
+            android:textColor="@color/black"
+            android:checked="false">
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/night_dose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Night"
+            android:textColor="@color/black"
+            android:checked="false"
+            android:onClick="onCheckboxClicked">
+        </CheckBox>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/save_butt"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:onClick="saveTime"/>
+        <Button
+            android:id="@+id/cancel_butt"
+            android:layout_marginLeft="5dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:onClick="cancelTime"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/time_list"
+        android:dividerHeight="2dp"
+        android:divider="@color/black"
+        android:background="@color/purple_200"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
