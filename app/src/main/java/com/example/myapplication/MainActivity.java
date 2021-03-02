@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DatabaseRef=FirebaseDatabase.getInstance().getReference();
+        DatabaseRef=FirebaseDatabase.getInstance().getReference("Alarms");
         manageAlarm=new ManageAlarm();
         save=(Button)findViewById(R.id.save_butt);
         cancel=(Button)findViewById(R.id.cancel_butt);
@@ -96,7 +97,16 @@ public class MainActivity extends AppCompatActivity {
         TimePicker timePicker=new TimePicker(this);
         int currtHour=timePicker.getCurrentHour();
         int currMin=timePicker.getCurrentMinute();
-        
+
+        listview.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int id2=idList.get(position);
+                String str=String.valueOf(id2);
+                Toast.makeText(MainActivity.this,str,Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
 
@@ -118,14 +128,14 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             int id=manageAlarm.SetBajna(hourOfDay,minute,0,MainActivity.this);
-
+                            String ID=String.valueOf(id);
                             medicine=medName.getText().toString()+"\n";
                             Medicine=medicine+hourOfDay+":"+minute;
                             AlarmInfo alarmInfo=new AlarmInfo(medicine,hourOfDay,minute,0,id,00);
-                            DatabaseRef.child("Alarms").child("1").setValue(alarmInfo);
+                            DatabaseRef.child("Alarms").child(ID).setValue(alarmInfo);
 
-                            arrayList.add(Medicine);
-                            adapter.notifyDataSetChanged();
+                            //arrayList.add(Medicine);
+                            //adapter.notifyDataSetChanged();
 
                         }
                     },currtHour,currMin,true);
@@ -175,16 +185,34 @@ public class MainActivity extends AppCompatActivity {
         dbf.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot dsp:snapshot.getChildren())
+                {
+                    String name=dsp.child("medName").getValue(String.class);
+                    int hour=dsp.child("hour").getValue(Integer.class);
+                    int mi=dsp.child("min").getValue(Integer.class);
+                    int id2=dsp.child("id").getValue(Integer.class);
+
+                    //Toast.makeText(MainActivity.this,id2,Toast.LENGTH_LONG).show();
+                    String value=name+" "+hour+":"+mi;
+                    arrayList.add(value);
+                    idList.add(id2);
+                    adapter.notifyDataSetChanged();
+                }
+
+                /*
                 String name=snapshot.child("Alarms").child("1").child("medName").getValue(String.class);
                 int hour=snapshot.child("Alarms").child("1").child("hour").getValue(Integer.class);
                 int mi=snapshot.child("Alarms").child("1").child("min").getValue(Integer.class);
                 int id2=snapshot.child("Alarms").child("1").child("id").getValue(Integer.class);
 
                 //Toast.makeText(MainActivity.this,id2,Toast.LENGTH_LONG).show();
-                String value=name+" "+hour+":"+mi+" "+"ID"+id2;
+                String value=name+" "+hour+":"+mi;
                 arrayList.add(value);
                 idList.add(id2);
                 adapter.notifyDataSetChanged();
+
+                 */
             }
 
             @Override
